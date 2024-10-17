@@ -35,7 +35,7 @@ variable "aws_tags" {
   default     = {}
 }
 # ---------------------------------------------------------------------------- #
-# Teleport Var
+# Teleport Vars
 # ---------------------------------------------------------------------------- #
 variable teleport_license_filepath {
   type        = string
