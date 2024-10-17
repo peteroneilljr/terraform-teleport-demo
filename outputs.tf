@@ -16,6 +16,10 @@ output token {
   sensitive   = true
   description = "description"
 }
+output teleport_fqdn {
+  value       = aws_route53_record.cluster_endpoint.fqdn
+  description = "description"
+}
 # ---------------------------------------------------------------------------- #
 # This output shows the command to create the first user
 # ---------------------------------------------------------------------------- #

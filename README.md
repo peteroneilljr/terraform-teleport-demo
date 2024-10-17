@@ -1,5 +1,10 @@
 # Create Teleport Cluster on EKS
 
+This module creates the following
+* VPC
+* EKS cluster
+* Teleport Cluster (Helm Deployment On EKS)
+* Route53 subdomain to access the cluster via ELB
 
 ## Example usage
 
@@ -45,7 +50,11 @@ provider "helm" {
 # Output example to create first user
 # ---------------------------------------------------------------------------- #
 output create_teleport_user {
-  value       = module.teleport.create_teleport_user
-  description = "description"
+  value       = module.terraform-teleport-eks.create_teleport_user
+  description = "Example kubectl command to create your first Teleport user"
+}
+output teleport_cluster_fqdn {
+  value       = module.terraform-teleport-eks.fqdn
+  description = "The URL to access your Teleport Cluster. (Ready ~10 min after module deployment)"
 }
 ```
