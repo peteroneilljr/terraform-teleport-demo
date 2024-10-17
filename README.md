@@ -58,3 +58,13 @@ output teleport_cluster_fqdn {
   description = "The URL to access your Teleport Cluster. (Ready ~10 min after module deployment)"
 }
 ```
+
+## Clean up
+
+If you're running this module in a state file with other resources, it is best to 
+use `terraform destroy` to remove the module resources before deleting the module
+from your terraform code. 
+
+```sh
+terraform destroy --target='module.teleport'
+```
