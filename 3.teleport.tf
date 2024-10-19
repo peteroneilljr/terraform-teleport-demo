@@ -1,8 +1,3 @@
-# Read Teleport Enterprise License
-data "local_sensitive_file" "license" {
-  filename = var.teleport_license_filepath
-}
-
 # Creates KUBECONFIG to configure first teleport user
 resource "local_sensitive_file" "kubeconfig" {
   content = templatefile("${path.module}/kubeconfig/kubeconfig.tpl", {
@@ -22,6 +17,11 @@ resource "kubernetes_namespace" "teleport_cluster" {
       "pod-security.kubernetes.io/enforce" = "baseline"
     }
   }
+}
+
+# Read Teleport Enterprise License
+data "local_sensitive_file" "license" {
+  filename = var.teleport_license_filepath
 }
 
 # creates enterprise license as k8s secret
