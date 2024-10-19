@@ -105,21 +105,3 @@ resource "aws_iam_role_policy_attachment" "eks_ebs" {
   role       = aws_iam_role.eks_ebs[count.index].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
-
-# ---------------------------------------------------------------------------- #
-# Cluster data used to create kubernetes objects
-# ---------------------------------------------------------------------------- #
-# sources information about an eks cluster based on its name
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_name
-  depends_on = [
-    module.eks
-  ]
-}
-# sources auth token for eks cluster
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_name
-  depends_on = [
-    module.eks
-  ]
-}

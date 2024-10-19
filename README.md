@@ -16,8 +16,6 @@ module "teleport" {
 
   prefix = local.prefix
 
-  create_vpc        = true
-  create_eks        = true
   eks_public_access = true
 
   aws_domain_name = "example.com"

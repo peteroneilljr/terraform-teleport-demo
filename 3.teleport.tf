@@ -1,3 +1,18 @@
+# Configure Auth for providers
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_name
+  depends_on = [
+    module.eks
+  ]
+}
+# sources auth token for eks cluster
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_name
+  depends_on = [
+    module.eks
+  ]
+}
+
 # Creates KUBECONFIG to configure first teleport user
 resource "local_sensitive_file" "kubeconfig" {
   content = templatefile("${path.module}/kubeconfig/kubeconfig.tpl", {
