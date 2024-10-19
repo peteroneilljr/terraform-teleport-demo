@@ -1,11 +1,6 @@
-# creates namespace for teleport cluster per https://goteleport.com/docs/ver/15.x/deploy-a-cluster/helm-deployments/kubernetes-cluster/#install-the-teleport-cluster-helm-chart
-resource "kubernetes_namespace" "teleport_cluster" {
-  metadata {
-    name = "teleport-cluster"
-    labels = {
-      "pod-security.kubernetes.io/enforce" = "baseline"
-    }
-  }
+# Read Teleport Enterprise License
+data "local_sensitive_file" "license" {
+  filename = var.teleport_license_filepath
 }
 
 # Creates KUBECONFIG to configure first teleport user
@@ -18,9 +13,15 @@ resource "local_sensitive_file" "kubeconfig" {
   filename = "${path.module}/kubeconfig/${module.eks.cluster_name}.yaml"
 }
 
-# Read Teleport Enterprise License
-data "local_sensitive_file" "license" {
-  filename = var.teleport_license_filepath
+# https://goteleport.com/docs/ver/15.x/deploy-a-cluster/helm-deployments/kubernetes-cluster/#install-the-teleport-cluster-helm-chart
+# creates namespace for teleport cluster 
+resource "kubernetes_namespace" "teleport_cluster" {
+  metadata {
+    name = "teleport-cluster"
+    labels = {
+      "pod-security.kubernetes.io/enforce" = "baseline"
+    }
+  }
 }
 
 # creates enterprise license as k8s secret
@@ -36,8 +37,6 @@ resource "kubernetes_secret" "license" {
 
   type = "Opaque"
 }
-
-
 
 # defines helm release for teleport cluster
 # teleport k8s operator is added via the operator.enabled arugmenet in the values section below
@@ -68,33 +67,3 @@ EOF
   ]
 }
 
-# sources the k8s service (running on an ELB) for the value of the DNS records below
-data "kubernetes_service" "teleport_cluster" {
-  metadata {
-    name      = helm_release.teleport_cluster.name
-    namespace = helm_release.teleport_cluster.namespace
-  }
-}
-
-# used for creating subdomain on existing zone. zone is defined by the variable domain_name
-data "aws_route53_zone" "main" {
-  name = var.aws_domain_name
-}
-
-# creates DNS record for teleport cluster on eks
-resource "aws_route53_record" "cluster_endpoint" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.teleport_subdomain
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.teleport_cluster.status[0].load_balancer[0].ingress[0].hostname]
-}
-
-# creates wildcard record for teleport cluster on eks 
-resource "aws_route53_record" "wild_cluster_endpoint" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "*.${var.teleport_subdomain}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.teleport_cluster.status[0].load_balancer[0].ingress[0].hostname]
-}
