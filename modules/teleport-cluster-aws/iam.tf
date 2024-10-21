@@ -34,12 +34,6 @@ resource "aws_iam_policy" "teleport_cluster_dynamodb" {
             "Effect": "Allow",
             "Action": "dynamodb:*",
             "Resource": "${aws_dynamodb_table.teleport_events.arn}/index/*"
-        },
-        {
-            "Sid": "AllActionsOnLocks",
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": "${aws_dynamodb_table.teleport_locks.arn}"
         }
     ]
 }
