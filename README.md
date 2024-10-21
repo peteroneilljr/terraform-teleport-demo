@@ -5,8 +5,11 @@ This module creates the following
 * EKS cluster
 * Teleport Cluster (Helm Deployment On EKS)
 * Route53 subdomain to access the cluster via ELB
+High availability mode will also create
+* DynamoDB backend
+* S3 storage bucket for recordings
 
-## Example usage
+## Standalone Example usage
 
 ```hcl
 data "aws_default_tags" "this" {}
@@ -22,6 +25,7 @@ module "teleport" {
   aws_vpc_cidr    = "10.17.0.0/16"
   aws_tags        = data.aws_default_tags.this.tags
 
+  teleport_chart_mode       = "standalone"
   teleport_license_filepath = "../auth/license.pem"
   teleport_email            = "my.user@example.com"
   teleport_version          = var.teleport_version
@@ -43,7 +47,57 @@ provider "helm" {
     token                  = module.teleport.token
   }
 }
+```
 
+## AWS High availability Example
+
+```hcl
+module "terraform-teleport-eks" {
+  source = "../modules/terraform-teleport-cluster-eks"
+
+  prefix = local.prefix
+
+  # Pulic access is needed for initial configuration
+  # You can set to false and access via Teleport after deployment
+  eks_public_access = true
+
+  aws_domain_name = "teleportdemo.com"
+  aws_vpc_cidr    = "10.17.0.0/16"
+  aws_tags        = data.aws_default_tags.this.tags
+  aws_region      = var.aws_region
+
+  teleport_chart_mode       = "aws"
+  teleport_license_filepath = "../auth/license.pem"
+  teleport_email            = "peter.oneill@goteleport.com"
+  teleport_version          = var.teleport_version
+  teleport_subdomain        = "pon-eks"
+}
+
+# ---------------------------------------------------------------------------- #
+# Providers to create Kubernetes resources inside of the module
+# ---------------------------------------------------------------------------- #
+provider "kubernetes" {
+  host                   = module.terraform-teleport-eks.host
+  cluster_ca_certificate = module.terraform-teleport-eks.cluster_ca_certificate
+  token                  = module.terraform-teleport-eks.token
+}
+provider "kubectl" {
+  host                   = module.terraform-teleport-eks.host
+  cluster_ca_certificate = module.terraform-teleport-eks.cluster_ca_certificate
+  token                  = module.terraform-teleport-eks.token
+}
+provider "helm" {
+  kubernetes {
+    host                   = module.terraform-teleport-eks.host
+    cluster_ca_certificate = module.terraform-teleport-eks.cluster_ca_certificate
+    token                  = module.terraform-teleport-eks.token
+  }
+}
+```
+
+
+## Outputs Example
+```sh
 # ---------------------------------------------------------------------------- #
 # Output example to create first user
 # ---------------------------------------------------------------------------- #
