@@ -9,6 +9,14 @@ High availability mode will also create
 * DynamoDB backend
 * S3 storage bucket for recordings
 
+## Modes
+
+Standalone Mode 
+Creates a Teleport cluster where all the resources are contained within EKS
+
+High Availability Mode 
+Creates a DynamoDB backend and S3 bucket to make the cluster resilient to failures. 
+
 ## Standalone Example usage
 
 ```hcl
