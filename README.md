@@ -68,9 +68,9 @@ module "terraform-teleport-eks" {
 
   teleport_chart_mode       = "aws"
   teleport_license_filepath = "../auth/license.pem"
-  teleport_email            = "peter.oneill@goteleport.com"
+  teleport_email            = "my.user@example.com"
   teleport_version          = var.teleport_version
-  teleport_subdomain        = "pon-eks"
+  teleport_subdomain        = "my-teleport-cluster"
 }
 
 # ---------------------------------------------------------------------------- #
