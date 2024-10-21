@@ -5,6 +5,7 @@ This module creates the following
 * EKS cluster
 * Teleport Cluster (Helm Deployment On EKS)
 * Route53 subdomain to access the cluster via ELB
+
 High availability mode will also create
 * DynamoDB backend
 * S3 storage bucket for recordings
