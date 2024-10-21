@@ -29,15 +29,19 @@ variable "aws_vpc_cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
+variable "aws_region" {
+  description = "value"
+  type        = string
+}
 variable "aws_tags" {
   description = "value"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 # ---------------------------------------------------------------------------- #
 # Teleport Vars
 # ---------------------------------------------------------------------------- #
-variable teleport_license_filepath {
+variable "teleport_license_filepath" {
   type        = string
   description = "description"
 }
@@ -52,6 +56,10 @@ variable "teleport_version" {
 }
 variable "teleport_subdomain" {
   description = "subdomain to create in the provided aws domain"
+  type        = string
+}
+variable "teleport_chart_mode" {
+  description = "Chart mode for Teleport Cluster Helm chart aws or standalone"
   type        = string
 }
 
