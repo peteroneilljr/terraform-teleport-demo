@@ -32,6 +32,7 @@ variable "aws_vpc_cidr" {
 variable "aws_region" {
   description = "value"
   type        = string
+  default     = null
 }
 variable "aws_tags" {
   description = "value"
