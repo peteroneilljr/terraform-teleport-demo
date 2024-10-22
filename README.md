@@ -24,7 +24,7 @@ Creates a DynamoDB backend and S3 bucket to make the cluster resilient to failur
 data "aws_default_tags" "this" {}
 
 module "teleport" {
-  source = "../modules/terraform-teleport-cluster-eks"
+  source = "git::https://github.com/peteroneilljr/terraform-teleport-demo.git"
 
   prefix = local.prefix
 
@@ -62,7 +62,7 @@ provider "helm" {
 
 ```hcl
 module "terraform-teleport-eks" {
-  source = "../modules/terraform-teleport-cluster-eks"
+  source = "git::https://github.com/peteroneilljr/terraform-teleport-demo.git"
 
   prefix = local.prefix
 
