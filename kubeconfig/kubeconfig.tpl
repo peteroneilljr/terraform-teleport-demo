@@ -27,3 +27,5 @@ users:
         - get-token
         - --cluster-name
         - ${cluster_name}
+        - --profile
+        - ${profile}

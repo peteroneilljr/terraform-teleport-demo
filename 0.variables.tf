@@ -34,6 +34,11 @@ variable "aws_region" {
   type        = string
   default     = null
 }
+variable "aws_profile" {
+  description = "value"
+  type        = string
+  default     = "default"
+}
 variable "aws_tags" {
   description = "value"
   type        = map(any)

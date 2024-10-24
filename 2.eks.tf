@@ -128,6 +128,7 @@ resource "local_sensitive_file" "kubeconfig" {
     cluster_name = module.eks.cluster_name
     clusterca    = data.aws_eks_cluster.cluster.certificate_authority[0].data
     endpoint     = data.aws_eks_cluster.cluster.endpoint
+    profile      = var.aws_profile
   })
   filename = "${path.module}/kubeconfig/${module.eks.cluster_name}.yaml"
 }

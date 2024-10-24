@@ -20,9 +20,12 @@ output "teleport_fqdn" {
   value       = aws_route53_record.cluster_endpoint.fqdn
   description = "description"
 }
-output eks_managed_node_groups {
-  value       = module.eks.eks_managed_node_groups
+output "kubeconfig" {
+  value       = local_sensitive_file.kubeconfig.filename
+  sensitive   = true
+  description = "description"
 }
+
 
 # ---------------------------------------------------------------------------- #
 # This output shows the command to create the first user
