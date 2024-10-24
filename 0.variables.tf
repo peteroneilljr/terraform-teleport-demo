@@ -68,4 +68,11 @@ variable "teleport_chart_mode" {
   description = "Chart mode for Teleport Cluster Helm chart aws or standalone"
   type        = string
 }
-
+# ---------------------------------------------------------------------------- #
+# teleport resources
+# ---------------------------------------------------------------------------- #
+variable teleport_resource_aws {
+  type        = bool
+  default     = false
+  description = "description"
+}
