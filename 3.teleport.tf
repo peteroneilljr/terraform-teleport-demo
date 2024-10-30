@@ -1,7 +1,7 @@
 module "teleport-cluster-aws" {
-  count = var.teleport_chart_mode == "aws" ? 1:0
+  count = var.teleport_chart_mode == "aws" ? 1 : 0
 
-  source = "git::https://github.com/peteroneilljr/Terraform-Teleport-Module-Collection.git//terraform-teleport-cluster-aws"
+  source                    = "git::https://github.com/peteroneilljr/Terraform-Teleport-Module-Collection.git//terraform-teleport-cluster-aws"
   teleport_license_filepath = var.teleport_license_filepath
   teleport_version          = var.teleport_version
   teleport_subdomain        = var.teleport_subdomain
@@ -13,9 +13,9 @@ module "teleport-cluster-aws" {
   eks_managed_node_groups   = module.eks.eks_managed_node_groups
 }
 module "teleport-cluster-standalone" {
-  count = var.teleport_chart_mode == "standalone" ? 1:0
+  count = var.teleport_chart_mode == "standalone" ? 1 : 0
 
-  source = "git::https://github.com/peteroneilljr/Terraform-Teleport-Module-Collection.git//terraform-teleport-cluster-standalone"
+  source                    = "git::https://github.com/peteroneilljr/Terraform-Teleport-Module-Collection.git//terraform-teleport-cluster-standalone"
   teleport_license_filepath = var.teleport_license_filepath
   teleport_version          = var.teleport_version
   teleport_subdomain        = var.teleport_subdomain

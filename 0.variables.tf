@@ -71,7 +71,7 @@ variable "teleport_chart_mode" {
 # ---------------------------------------------------------------------------- #
 # teleport resources
 # ---------------------------------------------------------------------------- #
-variable teleport_resource_aws {
+variable "teleport_resource_aws" {
   type        = bool
   default     = false
   description = "description"

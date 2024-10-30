@@ -23,8 +23,8 @@ resource "aws_route53_record" "wild_cluster_endpoint" {
 
 locals {
   kubernetes_service_hostname = (
-    try(module.teleport-cluster-standalone[0].kubernetes_service_hostname,   # standalone
-      try(module.teleport-cluster-aws[0].kubernetes_service_hostname,        # aws
+    try(module.teleport-cluster-standalone[0].kubernetes_service_hostname, # standalone
+      try(module.teleport-cluster-aws[0].kubernetes_service_hostname,      # aws
         "error"
       )
     )
