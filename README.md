@@ -106,12 +106,12 @@ provider "helm" {
 
 
 ## Outputs Example
-```sh
+```hcl
 # ---------------------------------------------------------------------------- #
 # Output example to create first user
 # ---------------------------------------------------------------------------- #
-output create_teleport_user {
-  value       = module.terraform-teleport-eks.create_teleport_user
+output teleport_create_user {
+  value       = module.terraform-teleport-eks.teleport_create_user
   description = "Example kubectl command to create your first Teleport user"
 }
 output teleport_cluster_fqdn {

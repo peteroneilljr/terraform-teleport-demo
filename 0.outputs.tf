@@ -30,7 +30,7 @@ output "kubeconfig" {
 # ---------------------------------------------------------------------------- #
 # This output shows the command to create the first user
 # ---------------------------------------------------------------------------- #
-output "create_teleport_user" {
+output "teleport_create_user" {
   value = <<EOT
     kubectl --kubeconfig='${abspath(local_sensitive_file.kubeconfig.filename)}'\
       --namespace='teleport-cluster' \
